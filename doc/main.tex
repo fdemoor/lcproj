@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[left=1.25in, right=1.25in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+
+\paragraph{Question 1}
+
+On procède par induction, en montrant que l'expression est pour toute valeur de $x$. Puisque $x$ est une variable booléenne, on détaille deux cas : $x=0$ et $x=1$. Si $x=0$, on a $\varphi[0/x] = (1 \land \varphi[0/x]) \lor (0 \land \varphi[1/x]) = \varphi[0/x]$. Si $x=1$, on a $\varphi[1/x] = (0 \land \varphi[0/x]) \lor (1 \land \varphi[1/x]) = \varphi[1/x]$.
+
+\paragraph{Question 2}
+
+On construit une formule INF comme suit : si  $\varphi$ ne contient pas de variables propositionnelles, elle est soit équivalente à 1, soit à 0, ce qui est une formule INF. Sinon, on forme l'expansion de Shannon de $\varphi$ sur $x$ de $\varphi$. Puisque $\varphi[0/x]$ et $\varphi[1/x]$ contiennent une variable de moins que $\varphi$, on peut appliquer cette procédure récursivement pour trouver des INFs pour chacune d'elles (disons  $\varphi_0$, $\varphi_1$), à partir desquelles on peut construire la formule INF pour $\varphi$ par $x \rightarrow \varphi_0, \varphi_1$.
+
+\paragraph{Question 3}
+
+On procède par induction sur le nombre d'arguments de $f$. Pour $n=0$, il y a seulement deux fonctions booléennes : la constante 1 et la constante 0. Tout ROBDD contenant au moins un noeud non terminal est non-constant. (Pourquoi ?) Par conséquent il existe un seul ROBDD pour chacun d'eux : le terminal 0 et le terminal 1.
+
+Supposons maintenant qu'on a prouvé la proposition pour toute fonction de $n$ arguments. On le démontre pour $n+1$ arguments. Soit $f \colon \mathbb{B}^{n+1} \to \mathbb{B}$ une fonction booléenne à $n+1$ arguments. Définissons les deux fonctions $f_0$ et $f_1$ de cardinalité $n$ en fixant le premier argument de $f$ à 0 puis 1 : \[ f_b(x_2, \dots, x_{n+1}) = f(b, x_2, \dots, x_{n+1})  \text{ pour }b\in\mathbb{B}. \] Ces fonctions satisfont l'équation suivante : \[ f(x_1, \dots, x_n) = x_1 \rightarrow f_1(x_2, \dots, x_n), f_0(x_2, \dots, x_n). \] Puisque $f_0$ et $f_1$ ne prennent que $n$ arguments, on admet par induction qu'il existe des noeuds ROBDD uniques $u_0$ et $u_1$ avec $f^{u_0} = f_0$ et $f^{u_1} = f_1$. 
+
+Il y a deux cas à considérer. Si $u_0 = u_1$ alors $f^{u_0} = f^{u_1}$ et $f_0 = f^{u_0} = f^{u_1} = f_1 = f$. D'où $u_0 = u_1$ est un ROBDD pour $f$. C'est aussi le seul ROBDD pour f puisque par l'ordre posé, si $x_1$ est présent dans le ROBDD de racine $u$, $x_1$ est le noeud racine. Cependant, si $f = f^u$ alors $f_0  = f^u[0/x_1] = f^{low(u)}$ et $f_1 = f^u[1/x_1] = f^{high(u)}$. Puisque $f_0 = f^{u_0} = f^{u_1} = f_1$ par hypothèse, les fils low et high de $u$ sont identiques, rendant le ROBDD non valide (selon ?).
+
+Si $u_0 \neq u_1$ alors $f^{u_0} \neq f^{u_1}$ par hypothèse d'induction (en utilisant $x_2, \dots, x_{n+1}$ plutôt que $x_1, \dots, x_n$). On prend $u$ comme le noeud avec $var(u) = x_1$, $low(u) = u_0$ et $high(u) = u_1$, ie. $f^u = x_1 \rightarrow f^{u_1}, f^{u_0}$ qui est utile. Par hypothèse $f^{u_1} = f_1$ et $f^{u_0} = f_0$ donc en utilisant l'équation précédente (numéroter !) on a que $f^u = f$. Supposons que $v$ soit un autre noeud avec $f^v = f$. Évidement, $f^v$ doit dépendre de $x_1$, ie. $f^v[0/x_1] \neq f^v[1/x_1]$ (sans quoi $f_0 = f^v[0/x_1] = f^v[1/x_1] = f_1$, une contradiction). Par l'ordre, cela veut dire que $var(v) = x_1 = var(u)$. De plus, par $f^v = f$, il s'en suit que $f^{low(v)} = f_0 = f^{u_0}$ et $f^{high(v)} = f_1 = f^{u_1}$, ce qui par l'hypothèse d'induction implique que $low(v) = u_0 = low(u)$ et $high(v) = u_1 = high(u)$. Par la propriété d'unicité  il s'en suit que $u=v$.
+
+\end{document}
