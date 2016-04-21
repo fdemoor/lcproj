@@ -1,17 +1,9 @@
  # Use camlp5 for versions of OCaml >= 3.12 (5.15 should be ok)
 # Download this from http://pauillac.inria.fr/~ddr/camlp5/
 
-NUMS=/usr/local/lib/ocaml/nums.cma 
+NUMS=/usr/lib/ocaml/nums.cma
 
-
-OCAMLVERSION = $(shell ocaml -version | sed 's/^.* //g' | cut -d"." -f1)
-TL = ""
-#Détection de la version
-ifeq "$(OCAMLVERSION)" "4"
-    TL=/usr/local/lib/ocaml/compiler-libs/ocamlcommon.cma /usr/local/lib/ocaml/compiler-libs/ocamlbytecomp.cma /usr/local/lib/ocaml/compiler-libs/ocamltoplevel.cma
-else
-    TL=/usr/local/lib/ocaml/toplevellib.cma
-endif
+TL=/usr/lib/ocaml/compiler-libs/ocamlcommon.cma /usr/lib/ocaml/compiler-libs/ocamlbytecomp.cma /usr/lib/ocaml/compiler-libs/ocamltoplevel.cma
 
 OFILES= lib.cmo formulas.cmo prop.cmo initialization.cmo bdd.cmo
 INCLUDE= -I ./lib 
