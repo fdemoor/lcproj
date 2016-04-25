@@ -1,4 +1,4 @@
-(* Example of file when using the compiles mode *) 
+(* Example of file when using the compiles mode *)
 
 open Lib
 open Formulas
@@ -18,7 +18,7 @@ let ht = init_ht taille in
 (* Adding a node for variable x_1, with low son 0 and high son 1 *)
 let u = add t 1 0 1 in
   insert ht 1 0 1 u;
-  
+
   (* Adding a node for variable x_2, with low son 1 and high son u *)
   let v = add t 2 1 u in
     insert ht 2 1 u v;
@@ -26,5 +26,10 @@ let u = add t 1 0 1 in
     debug_print_h ht 10 10;
     print_t t v "bla.dot";;
 
-
-
+(* let make : tableT -> tableH -> variable -> id -> id -> id *)
+(* let apply_neg : tableT -> tableH -> id -> id              *)
+(* let apply : tableT -> tableH -> op -> id -> id -> id      *)
+(* let build : tableT -> tableH -> prop formula -> id        *)
+(* let sat : id -> bool, la fonction valid : id -> bool      *)
+(* let anysat : tableT -> id -> (variable * bool) list       *)
+(* let dames : int -> int                                    *)
